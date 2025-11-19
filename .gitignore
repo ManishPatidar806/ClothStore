@@ -102,8 +102,14 @@ dump.rdb
 uploads/
 */uploads/
 Frontend/public/uploads/
+Backend/.env
+Frontend/.env
+Admin/.env
+Frontend/node_modules
+Backend/node_modules
+Admin/node_modules
 Admin/public/uploads/
-Backnd/uploads/
+Backend/uploads/
 
 # Backup and archive files
 *.backup
