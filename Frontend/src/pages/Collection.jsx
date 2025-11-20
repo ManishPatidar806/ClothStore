@@ -3,10 +3,11 @@ import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets';
 import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
+import { SkeletonProductGrid, SkeletonText } from '../components/ui/LoadingSkeleton';
 
 const Collection = () => {
 
-    const { products } = useContext(ShopContext);
+    const { products, isLoading } = useContext(ShopContext);
   const [showFilter,setShowFilter] = useState(false);
   const [filterProducts,setFilterProducts] = useState([]);
   const [category,setCategory] = useState([]);
@@ -94,26 +95,36 @@ const Collection = () => {
       
           {/* Filter Sidebar */}
           <div className='lg:col-span-1'>
-            <div className='bg-white rounded-2xl shadow-medium border-0 overflow-hidden'>
+            <div className={`bg-white rounded-2xl shadow-medium border-0 overflow-hidden ${
+              isLoading ? 'pointer-events-none select-none' : ''
+            }`}>
               {/* Filter Header */}
               <div className='p-6 border-b border-neutral-200'>
                 <button 
                   onClick={()=>setShowFilter(!showFilter)} 
                   className='w-full flex items-center justify-between text-left focus:outline-none lg:cursor-default'
+                  disabled={isLoading}
                 >
-                  <h3 className='text-heading-3 font-display font-semibold text-neutral-900'>
+                  <h3 className={`text-heading-3 font-display font-semibold ${
+                    isLoading ? 'text-neutral-400' : 'text-neutral-900'
+                  }`}>
                     Filters
                   </h3>
-                  <svg 
-                    className={`w-5 h-5 text-neutral-500 transition-transform duration-200 lg:hidden ${
-                      showFilter ? 'rotate-180' : ''
-                    }`} 
-                    fill='none' 
-                    stroke='currentColor' 
-                    viewBox='0 0 24 24'
-                  >
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                  </svg>
+                  {isLoading && (
+                    <div className='w-4 h-4 border border-neutral-300 border-t-transparent rounded-full animate-spin'></div>
+                  )}
+                  {!isLoading && (
+                    <svg 
+                      className={`w-5 h-5 text-neutral-500 transition-transform duration-200 lg:hidden ${
+                        showFilter ? 'rotate-180' : ''
+                      }`} 
+                      fill='none' 
+                      stroke='currentColor' 
+                      viewBox='0 0 24 24'
+                    >
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                    </svg>
+                  )}
                 </button>
               </div>
 
@@ -121,17 +132,28 @@ const Collection = () => {
               <div className={`${showFilter ? '' : 'hidden'} lg:block`}>
                 {/* Category Filter */}
                 <div className='p-6 border-b border-neutral-200'>
-                  <h4 className='text-body-large font-medium text-neutral-900 mb-4'>Categories</h4>
+                  <h4 className={`text-body-large font-medium mb-4 ${
+                    isLoading ? 'text-neutral-400' : 'text-neutral-900'
+                  }`}>Categories</h4>
                   <div className='space-y-3'>
                     {['Men', 'Women', 'Kids'].map((cat) => (
-                      <label key={cat} className='flex items-center space-x-3 cursor-pointer group'>
+                      <label key={cat} className={`flex items-center space-x-3 group transition-all duration-200 ${
+                        isLoading 
+                          ? 'opacity-50 cursor-not-allowed pointer-events-none' 
+                          : 'cursor-pointer hover:bg-neutral-50 rounded-lg p-2 -m-2'
+                      }`}>
                         <input
                           type='checkbox'
                           value={cat}
                           onChange={toggleCategory}
-                          className='w-4 h-4 text-primary-600 border-neutral-300 rounded focus:ring-primary-500 focus:ring-2'
+                          disabled={isLoading}
+                          className='w-4 h-4 text-primary-600 border-neutral-300 rounded focus:ring-primary-500 focus:ring-2 disabled:opacity-50 transition-colors'
                         />
-                        <span className='text-neutral-700 group-hover:text-primary-600 transition-colors'>
+                        <span className={`transition-colors ${
+                          isLoading 
+                            ? 'text-neutral-400' 
+                            : 'text-neutral-700 group-hover:text-primary-600'
+                        }`}>
                           {cat}
                         </span>
                       </label>
@@ -141,17 +163,28 @@ const Collection = () => {
 
                 {/* SubCategory Filter */}
                 <div className='p-6'>
-                  <h4 className='text-body-large font-medium text-neutral-900 mb-4'>Type</h4>
+                  <h4 className={`text-body-large font-medium mb-4 ${
+                    isLoading ? 'text-neutral-400' : 'text-neutral-900'
+                  }`}>Type</h4>
                   <div className='space-y-3'>
                     {['Topwear', 'Bottomwear', 'Winterwear'].map((subCat) => (
-                      <label key={subCat} className='flex items-center space-x-3 cursor-pointer group'>
+                      <label key={subCat} className={`flex items-center space-x-3 group transition-all duration-200 ${
+                        isLoading 
+                          ? 'opacity-50 cursor-not-allowed pointer-events-none' 
+                          : 'cursor-pointer hover:bg-neutral-50 rounded-lg p-2 -m-2'
+                      }`}>
                         <input
                           type='checkbox'
                           value={subCat}
                           onChange={toggleSubCategory}
-                          className='w-4 h-4 text-primary-600 border-neutral-300 rounded focus:ring-primary-500 focus:ring-2'
+                          disabled={isLoading}
+                          className='w-4 h-4 text-primary-600 border-neutral-300 rounded focus:ring-primary-500 focus:ring-2 disabled:opacity-50 transition-colors'
                         />
-                        <span className='text-neutral-700 group-hover:text-primary-600 transition-colors'>
+                        <span className={`transition-colors ${
+                          isLoading 
+                            ? 'text-neutral-400' 
+                            : 'text-neutral-700 group-hover:text-primary-600'
+                        }`}>
                           {subCat}
                         </span>
                       </label>
@@ -167,10 +200,17 @@ const Collection = () => {
             {/* Results Header */}
             <div className='flex items-center justify-between mb-8'>
               <div className='flex items-center space-x-4'>
-                <span className='text-neutral-600'>
-                  Showing {filterProducts.length} product{filterProducts.length !== 1 ? 's' : ''}
-                </span>
-                {(category.length > 0 || subCategory.length > 0) && (
+                {isLoading ? (
+                  <div className='flex items-center space-x-2'>
+                    <div className='w-4 h-4 bg-neutral-300 rounded animate-pulse'></div>
+                    <div className='h-4 w-32 bg-neutral-300 rounded animate-pulse'></div>
+                  </div>
+                ) : (
+                  <span className='text-neutral-600'>
+                    Showing {filterProducts.length} product{filterProducts.length !== 1 ? 's' : ''}
+                  </span>
+                )}
+                {!isLoading && (category.length > 0 || subCategory.length > 0) && (
                   <button
                     onClick={() => {
                       setCategory([])
@@ -185,24 +225,69 @@ const Collection = () => {
               
               {/* Sort Dropdown */}
               <div className='relative'>
-                <select
-                  onChange={(e)=>setSortType(e.target.value)}
-                  className='appearance-none bg-white border border-neutral-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent'
-                >
-                  <option value="relavent">Sort by: Relevant</option>
-                  <option value="low-high">Sort by: Price Low to High</option>
-                  <option value="high-low">Sort by: Price High to Low</option>
-                </select>
-                <div className='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none'>
-                  <svg className='w-4 h-4 text-neutral-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                  </svg>
-                </div>
+                {isLoading ? (
+                  <div className='flex items-center space-x-2 px-4 py-2 bg-neutral-100 rounded-lg'>
+                    <div className='w-4 h-4 bg-neutral-300 rounded animate-pulse'></div>
+                    <div className='h-4 w-24 bg-neutral-300 rounded animate-pulse'></div>
+                  </div>
+                ) : (
+                  <select
+                    onChange={(e)=>setSortType(e.target.value)}
+                    className='appearance-none bg-white border border-neutral-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent hover:border-primary-300 transition-colors'
+                  >
+                    <option value="relavent">Sort by: Relevant</option>
+                    <option value="low-high">Sort by: Price Low to High</option>
+                    <option value="high-low">Sort by: Price High to Low</option>
+                  </select>
+                )}
+                {!isLoading && (
+                  <div className='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none'>
+                    <svg className='w-4 h-4 text-neutral-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                    </svg>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Products Grid */}
-            {filterProducts.length === 0 ? (
+            {isLoading ? (
+              <div className='space-y-8'>
+                {/* Loading Header */}
+                <div className='flex items-center justify-center space-x-3 py-4'>
+                  <div className='w-6 h-6 border-2 border-primary-600 border-t-transparent rounded-full animate-spin'></div>
+                  <span className='text-neutral-600 font-medium'>Loading products...</span>
+                </div>
+                
+                {/* Loading Grid */}
+                <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8'>
+                  {Array.from({ length: 9 }, (_, index) => (
+                    <div key={index} className='group'>
+                      <div className='bg-white rounded-2xl shadow-soft border border-neutral-100 overflow-hidden'>
+                        {/* Image Skeleton */}
+                        <div className='aspect-square bg-gradient-to-br from-neutral-100 via-neutral-200 to-neutral-100 animate-pulse relative overflow-hidden'>
+                          <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer'></div>
+                        </div>
+                        
+                        {/* Content Skeleton */}
+                        <div className='p-6 space-y-3'>
+                          <div className='space-y-2'>
+                            <div className='h-4 bg-gradient-to-r from-neutral-200 to-neutral-300 rounded animate-pulse'></div>
+                            <div className='h-4 bg-gradient-to-r from-neutral-200 to-neutral-300 rounded w-3/4 animate-pulse'></div>
+                          </div>
+                          <div className='h-6 bg-gradient-to-r from-neutral-200 to-neutral-300 rounded w-1/2 animate-pulse'></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Loading Footer */}
+                <div className='text-center py-4'>
+                  <p className='text-neutral-500 text-sm'>Fetching the latest collection for you...</p>
+                </div>
+              </div>
+            ) : filterProducts.length === 0 ? (
               <div className='col-span-full text-center py-16'>
                 <div className='w-24 h-24 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6'>
                   <svg className='w-12 h-12 text-neutral-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
