@@ -1,5 +1,5 @@
 C2Store - Modern E-commerce Platform
-![C2Store Logo](https://via.placeholder.com/200x80/4F46E5/FFFFFF?text=C2Store)
+
 
 ![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat-square&logo=react)
 ![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=flat-square&logo=node.js)
@@ -9,7 +9,7 @@ C2Store - Modern E-commerce Platform
 
 🚀 A comprehensive e-commerce platform featuring modern web technologies, secure payments, and intuitive management tools
 
-[Demo Video](#) • [Live Demo](https://c2store.vercel.app/) • [Documentation](#api-documentation)
+[Demo Video](https://youtu.be/GGqYZri7jI4) • [Live Demo](https://c2store.vercel.app/) • [Documentation](#api-documentation)
 
 ## 📚 Table of Contents
 - [Overview](#overview)
@@ -564,27 +564,6 @@ Authorization: Bearer <user_token>
 - 🌍 International shipping and currency
 - 📊 Advanced business intelligence
 
-## 🧪 Testing
-
-### Backend Testing
-```bash
-# Run tests (when implemented)
-cd Backnd
-npm test
-
-# Manual API testing
-npm run test:api
-```
-
-### Frontend Testing
-```bash
-# Run tests
-cd Frontend
-npm test
-
-# E2E testing
-npm run test:e2e
-```
 
 ### Manual Testing Checklist
 - [ ] User registration and login
@@ -615,9 +594,6 @@ We welcome contributions from the community! Please read our [Contributing Guide
 - Include JSDoc comments for functions
 - Follow component naming conventions
 
-### Bug Reports
-Please use our [Issue Template](.github/ISSUE_TEMPLATE.md) for reporting bugs.
-
 ## 📄 License
 
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
@@ -625,7 +601,7 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 ## 🔗 Links
 
 - **GitHub Repository**: [C2Store](https://github.com/ManishPatidar806/C2Store)
-- **Live Demo**: [Coming Soon](#)
+- **Live Demo**: [Demo](https://c2store.vercel.app/)
 - **Documentation**: [API Docs](#api-documentation)
 - **Report Issues**: [GitHub Issues](https://github.com/ManishPatidar806/C2Store/issues)
 
